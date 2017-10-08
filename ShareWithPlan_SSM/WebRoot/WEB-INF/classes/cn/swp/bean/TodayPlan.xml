@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.swp.dao.ShareWithPlanMapper">
+
+ 	<!-- 根据id查询今日计划内容 -->
+    <select id="findTodayPlan"   parameterType="int"  resultType="cn.swp.bean.TodayPlan">
+        select * from t_todayplan  where tpid=#{tpid} 
+    </select>
+    
+    <!--添加今日计划内容 -->
+   <insert id="addTodayPlan" parameterType="cn.swp.bean.TodayPlan">
+   		insert into t_todayplan(tpContent,tpCreateTime,tpEndTime,tpuserid)
+   					 values(#{tpContent},#{tpCreateTime},#{tpEndTime},#{tpuserid})
+   </insert>
+    <!--添加今日计划内容company -->
+   <insert id="addTodayPlanCompany" parameterType="cn.swp.bean.TodayPlan">
+   		insert into t_todayplan(tpContent,tpCreateTime,tpEndTime,tpcuserid)
+   					 values(#{tpContent},#{tpCreateTime},#{tpEndTime},#{tpcuserid})
+   </insert>
+   
+   <!-- 修改今日内容 -->
+   <update id="updateTodayPlan" parameterType="cn.swp.bean.TodayPlan">
+   		update t_todayplan set tpContent=#{tpContent},tpCreateTime=#{tpCreateTime},tpEndTime=#{tpEndTime} where tpid=#{tpid}
+   </update>
+   
+   <!-- 删除今日计划内容 -->
+   <delete id="deleteTodayPlan" parameterType="int">
+   		delete from t_todayplan where tpid=#{tpid}
+   </delete>
+    
+    <!-- 笔记内容查询结果接收 -->
+    <resultMap type="cn.swp.bean.TodayPlan" id="allPlans">
+    	<id column="tpid" property="tpid"></id>
+    	<result column="tpContent" property="tpContent"></result>
+    	<result column="tpCreateTime" property="tpCreateTime"></result>
+    	<result column="tpEndTime" property="tpEndTime"></result>
+    	<result column="tpuserid" property="tpuserid"></result>
+    	<result column="tpcuserid" property="tpcuserid"></result>
+    </resultMap>
+    
+    <!-- 查询出当前登录的普通用户的所有的今日计划内容 -->
+    <select id="findAllTodayPlan" parameterType="int" resultMap="allPlans">
+    	select * from t_todayplan where tpuserid=#{tpuserid} order by tpCreateTime desc
+    </select>
+    <!-- 查询出当前登录的企业用户的所有的今日计划内容 -->
+    <select id="findAllTodayPlanCompany" parameterType="int" resultMap="allPlans">
+    	select * from t_todayplan where tpcuserid=#{tpcuserid} order by tpCreateTime desc
+    </select>
+    
+</mapper>

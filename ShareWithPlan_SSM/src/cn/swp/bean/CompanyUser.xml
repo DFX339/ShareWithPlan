@@ -1,0 +1,17 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.swp.dao.ShareWithPlanMapper">
+
+  <!--企业用户登录 -->
+    <select id="login"   parameterType="cn.swp.bean.CompanyUser"  resultType="cn.swp.bean.CompanyUser">
+        select * from t_companyuser  where cuserNum=#{cuserNum} and cpassword=#{cpassword}
+    </select>
+    
+   <!-- 企业用户注册 -->
+   <insert id="regist" parameterType="cn.swp.bean.CompanyUser">
+   		insert into t_companyuser(cuserNum,cusername,cpassword,cprofessional,companyNum)
+   					 values(#{cuserNum},#{cusername},#{cpassword},#{cprofessional},#{companyNum})
+   </insert>
+    
+</mapper>

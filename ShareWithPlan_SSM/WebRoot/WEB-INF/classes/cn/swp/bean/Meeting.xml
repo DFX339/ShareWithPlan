@@ -1,0 +1,66 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.swp.dao.ShareWithPlanMapper">
+
+ 	<!-- 根据id查询会议内容 -->
+    <select id="findMeeting"   parameterType="int"  resultType="cn.swp.bean.Meeting">
+        select * from t_meeting  where mid=#{mid} 
+    </select>
+    
+    <!--添加会议内容 -->
+   <insert id="addMeeting" parameterType="cn.swp.bean.Meeting">
+   		insert into t_meeting(mContent,mtime,mcuserid,mcompanyNum)
+   					 values(#{mContent},#{mtime},#{mcuserid},#{mcompanyNum})
+   </insert>
+   
+   <!-- 修改会议内容 -->
+   <update id="updateMeeting" parameterType="cn.swp.bean.Meeting">
+   		update t_meeting set mContent=#{mContent} where mid=#{mid}
+   </update>
+   
+   <!-- 删除会议内容 -->
+   <delete id="deleteMeeting" parameterType="int">
+   		delete from t_meeting where mid=#{mid}
+   </delete>
+    
+    <!-- 会议内容查询结果接收 -->
+    <resultMap type="cn.swp.bean.Meeting" id="allMeetings">
+    	<id column="mid" property="mid"></id>
+    	<result column="mContent" property="mContent"></result>
+    	<result column="mtime" property="mtime"></result>
+    	<result column="mcuserid" property="mcuserid"></result>
+    </resultMap>
+    
+    <!-- 查询出所有的会议内容 -->
+    <select id="findAllMeetings" parameterType="String" resultMap="allMeetings">
+    	select * from t_meeting where mcompanyNum=#{mcompanyNum} order by mtime desc
+    </select>
+    
+    
+    
+   <!-- 添加会议评论 -->
+   <insert id="addMeetComment" parameterType="cn.swp.bean.MeetingComment">
+   		insert into t_meetingcomment(mcContent,mcTime,mcmid)
+   					 values(#{mcContent},#{mcTime},#{mcmid})
+   </insert>
+   
+   <!-- 删除会议评论内容 -->
+   <delete id="deleteMeetComment" parameterType="int">
+   		delete from t_meetingcomment where mcid=#{mcid}
+   </delete>
+    
+    <!-- 会议内容查询结果接收 -->
+    <resultMap type="cn.swp.bean.MeetingComment" id="allMeetingComment">
+    	<id column="mcid" property="mcid"></id>
+    	<result column="mcContent" property="mcContent"></result>
+    	<result column="mcTime" property="mcTime"></result>
+    	<result column="mcmid" property="mcmid"></result>
+    </resultMap>
+    
+    <!-- 查询出所有的会议评论内容 -->
+    <select id="findAllMeetingComment" parameterType="int" resultMap="allMeetingComment">
+    	select * from t_meetingcomment where mcmid=#{mcmid} order by mcTime desc
+    </select>
+    
+</mapper>

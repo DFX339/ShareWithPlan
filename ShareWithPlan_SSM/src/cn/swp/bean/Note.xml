@@ -1,0 +1,78 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.swp.dao.ShareWithPlanMapper">
+
+ 	<!-- 根据id查询笔记内容 -->
+    <select id="findNote"   parameterType="int"  resultType="cn.swp.bean.Note">
+        select * from t_note  where nid=#{nid}  order by nsendTime desc
+    </select>
+    
+   <!--添加笔记内容 -->
+   <insert id="addNote" parameterType="cn.swp.bean.Note">
+   		insert into t_note(ncontent,nsendTime,nstate,nuserid)
+   					 values(#{ncontent},#{nsendTime},#{nstate},#{nuserid})
+   </insert>
+   <!--添加笔记内容cccompanyUser -->
+   <insert id="addNoteCompany" parameterType="cn.swp.bean.Note">
+   		insert into t_note(ncontent,nsendTime,nstate,ncuserid)
+   					 values(#{ncontent},#{nsendTime},#{nstate},#{ncuserid})
+   </insert>
+   
+   <!-- 修改笔记内容 -->
+   <update id="updateNote" parameterType="cn.swp.bean.Note">
+   		update t_note set ncontent=#{ncontent},nstate=#{nstate} where nid=#{nid}
+   </update>
+   
+   <!-- 删除笔记内容 -->
+   <delete id="deleteNote" parameterType="int">
+   		delete from t_note where nid=#{nid}
+   </delete>
+    
+    <!-- 笔记内容查询结果接收 -->
+    <resultMap type="cn.swp.bean.Note" id="allNotes">
+    	<id column="nid" property="nid"></id>
+    	<result column="ncontent" property="ncontent"></result>
+    	<result column="nsendTime" property="nsendTime"></result>
+    	<result column="nstate" property="nstate"></result>
+    	<result column="nuserid" property="nuserid"></result>
+    	<result column="ncuserid" property="ncuserid"></result>
+    </resultMap>
+    
+    <!-- 查询出普通用户所有的公开的笔记以及自己的笔记内容 -->
+    <select id="findAllNote" parameterType="int" resultMap="allNotes">
+    	select * from t_note where nuserid=#{nuserid} or nstate='PUBLIC' order by nsendTime desc
+    </select>
+    <!-- 查询出企业用户所有的公开的笔记以及自己的笔记内容  -->
+    <select id="findAllNoteCompany" parameterType="int" resultMap="allNotes">
+    	select * from t_note where ncuserid=#{ncuserid} or nstate='PUBLIC' order by nsendTime desc
+    </select>
+    
+    
+    
+   <!-- 添加笔记评论 -->
+   <insert id="addNoteComment" parameterType="cn.swp.bean.NoteComment">
+   		insert into t_notecomment(ncContent,ncCommentID,ncCommentName,ncTime,ncnid)
+   					 values(#{ncContent},#{ncCommentID},#{ncCommentName},#{ncTime},#{ncnid})
+   </insert>
+   
+   <!-- 删除笔记评论内容 -->
+   <delete id="deleteNoteComment" parameterType="int">
+   		delete from t_notecomment where ncid=#{ncid}
+   </delete>
+    
+    <!-- 笔记评论内容查询结果接收 -->
+    <resultMap type="cn.swp.bean.NoteComment" id="allNoteComment">
+    	<id column="ncid" property="ncid"></id>
+    	<result column="ncContent" property="ncContent"></result>
+    	<result column="ncCommentName" property="ncCommentName"></result>
+    	<result column="ncTime" property="ncTime"></result>
+    	<result column="ncnid" property="ncnid"></result>
+    </resultMap>
+    
+    <!-- 查询出所有的笔记评论内容 -->
+    <select id="findAllNoteComment" parameterType="int" resultMap="allNoteComment">
+    	select * from t_notecomment where  ncnid = #{nid} order by ncTime desc
+    </select>
+    
+</mapper>

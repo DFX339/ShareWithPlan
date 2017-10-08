@@ -1,0 +1,17 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.swp.dao.ShareWithPlanMapper">
+
+  <!--普通用户登录 -->
+    <select id="userLogin"   parameterType="cn.swp.bean.User"  resultType="cn.swp.bean.User">
+        select * from t_user  where userNum=#{userNum} and password=#{password}
+    </select>
+    
+   <!-- 普通用户注册 -->
+   <insert id="userRegist" parameterType="cn.swp.bean.User">
+   		insert into t_user(userNum,username,password,professional)
+   					 values(#{userNum},#{username},#{password},#{professional})
+   </insert>
+    
+</mapper>

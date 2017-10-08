@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="ShareWithPlan_SSM"
+  id="myeclipse.1506128645030"
+  context-root="/ShareWithPlan_SSM"
+  j2ee-spec="5.0"
+  archive="ShareWithPlan_SSM.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+
